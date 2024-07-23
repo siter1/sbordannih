@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Одностраничный сайт</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .loading-screen {
+            background: black;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+        }
+        .progress-bar {
+            width: 80%;
+            height: 30px;
+            border: 1px solid white;
+            margin-top: 20px;
+            position: relative;
+        }
+        .progress-bar-inner {
+            height: 100%;
+            background-color: red;
+            width: 0;
+            position: absolute;
+        }
+        .content {
+            display: none;
+            background: url('https://c.wallhere.com/photos/2f/e3/1920x1080_px_Agency_america_Central_Cia_crime_hacker_hacking-1575065.jpg!d') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .date-time {
+            font-size: 2em;
+        }
+        .additional-text {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+        .framed-text {
+            margin-top: 20px;
+            font-size: 1.5em;
+            border: 2px solid red;
+            padding: 10px;
+            width: fit-content;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString('ru-RU');
+            const time = now.toLocaleTimeString('ru-RU');
+            document.getElementById('date-time').textContent = `${date} ${time}`;
+        }
+        window.onload = function() {
+            updateDateTime();
+            setInterval(updateDateTime, 1000); // Обновлять каждую секунду
+            
+            let progress = 0;
+            const progressBar = document.querySelector('.progress-bar-inner');
+            const interval = setInterval(() => {
+                progress += 1;
+                progressBar.style.width = progress + '%';
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    document.querySelector('.loading-screen').style.display = 'none';
+                    document.querySelector('.content').style.display = 'flex';
+                }
+            }, 50); // 50ms * 100 = 5000ms or 5 seconds
+        }
+    </script>
+</head>
+<body>
+    <div class="loading-screen">
+        <div>Ало, происходит сбор данных, пожалуйста подождите...</div>
+        <div class="progress-bar">
+            <div class="progress-bar-inner"></div>
+        </div>
+    </div>
+    <div class="content">
+        <div id="date-time" class="date-time"></div>
+        <div class="additional-text">Алооо 415 база, доклад обстоятельства находится здесь</div>
+        <div class="framed-text">Пока все тихо</div>
+    </div>
+</body>
+</html>
